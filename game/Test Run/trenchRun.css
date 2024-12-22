@@ -1,0 +1,18 @@
+body {
+    font-family:'Courier New', Courier, monospace;
+    text-align: center;
+}
+
+#board {
+    background-color: lightgray;
+    border-bottom: 1px solid black;
+}
+
+canvas {
+    position: absolute; /* Enables positioning relative to the viewport */
+    top: 40%; /* Center vertically BUT set to slightly above halfpage to make it easier to view */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Offset by 50% of its own dimensions */
+    margin: 0; /* Remove default margin */
+    text-align: center; /* Ensure text alignment */
+}
