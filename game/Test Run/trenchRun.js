@@ -31,20 +31,18 @@ let spaceShip = {
 //explosion
 let explosionImg;
 
-//cactus
-let cactusArray = [];
+//obstacles, IE tie fighters, asteroids etc
+let obstacleArray = [];
 
-let cactus1Width = 34;
-let cactus2Width = 69;
-let cactus3Width = 102;
+let obstacleWidth = 34;
 
 let cactusHeight = 70;
 let cactusX = 1700;
 let cactusY = boardHeight - cactusHeight;
 
-let cactus1Img;
-let cactus2Img;
-let cactus3Img;
+let asteroidImg;
+let tieFighter1Img;
+let tieFighter2Img;
 
 //physics
 let velocityX = -8; //cactus moving left speed
@@ -78,17 +76,17 @@ window.onload = function() {
         context.drawImage(spaceShipImg, spaceShip.x, spaceShip.y, spaceShip.width, spaceShip.height);
     }
 
-    cactus1Img = new Image();
-    cactus1Img.src = "./img/asteroid.png";
+    asteroidImg = new Image();
+    asteroidImg.src = "./img/asteroid.png";
 
-    cactus2Img = new Image();
-    cactus2Img.src = "./img/cactus2.png";
+    tieFighter1Img = new Image();
+    tieFighter1Img.src = "./img/TieFighter1.png";
 
-    cactus3Img = new Image();
-    cactus3Img.src = "./img/cactus3.png";
+    tieFighter2Img = new Image();
+    tieFighter2Img.src = "./img/TieFighter3.png";
 
     requestAnimationFrame(update);
-    setInterval(placeCactus, 1000); //1000 milliseconds = 1 second
+    setInterval(placeObstacle, 1000); //1000 milliseconds = 1 second
     document.addEventListener("keydown", moveSpaceShip);
 }
 
@@ -99,7 +97,9 @@ function update() {
     if (gameOver) {
         return;
     }
-    context.clearRect(0, 0, board.width, board.height);
+
+    //clears the images which are off screen, added +50 to the board with to make sure they are off screen
+    context.clearRect(0, 0, board.width+50, board.height);
 
 
     //velocityY += gravity;
@@ -108,8 +108,8 @@ function update() {
     
 
     //cactus
-    for (let i = 0; i < cactusArray.length; i++) {
-        let cactus = cactusArray[i];
+    for (let i = 0; i < obstacleArray.length; i++) {
+        let cactus = obstacleArray[i];
         cactus.x += velocityX;
         context.drawImage(cactus.img, cactus.x, cactus.y, cactus.width, cactus.height);
 
@@ -138,8 +138,6 @@ function update() {
         context.fillStyle = "red";
         context.fillRect(projectile.x, projectile.y, projectile.width, projectile.height);
     }
-
-    
 
     //checks if the velocity slidervalue has been increased
     if(sliderValue != slider.value){
@@ -220,13 +218,14 @@ function shootProjectile() {
     projectiles.push(projectile); // Add the projectile to the array
 }
 
-function placeCactus() {
+//places obstacles
+function placeObstacle() {
     if (gameOver) {
         return;
     }
 
-    //place cactus
-    let cactus = {
+    //place obstacle
+    let obstacle = {
         img : null,
         x : cactusX,
         y : cactusY,
@@ -234,26 +233,26 @@ function placeCactus() {
         height: cactusHeight
     }
 
-    let placeCactusChance = Math.random(); //0 - 0.9999...
+    let placeObstacleChance = Math.random(); //0 - 0.9999...
 
-    if (placeCactusChance > .90) { //10% you get cactus3
-        cactus.img = cactus3Img;
-        cactus.width = cactus3Width;
-        cactusArray.push(cactus);
+    if (placeObstacleChance > .90) { //10% you get tiefighter 2
+        obstacle.img = tieFighter2Img;
+        obstacle.width = obstacleWidth;
+        obstacleArray.push(obstacle);
     }
-    else if (placeCactusChance > .70) { //30% you get cactus2
-        cactus.img = cactus2Img;
-        cactus.width = cactus2Width;
-        cactusArray.push(cactus);
+    else if (placeObstacleChance > .70) { //30% you get tiefighter 1
+        obstacle.img = tieFighter1Img;
+        obstacle.width = obstacleWidth;
+        obstacleArray.push(obstacle);
     }
-    else if (placeCactusChance > .50) { //50% you get cactus1
-        cactus.img = cactus1Img;
-        cactus.width = cactus1Width;
-        cactusArray.push(cactus);
+    else if (placeObstacleChance > .50) { //50% you get asteroid
+        obstacle.img = asteroidImg;
+        obstacle.width = obstacleWidth;
+        obstacleArray.push(obstacle);
     }
 
-    if (cactusArray.length > 5) {
-        cactusArray.shift(); //remove the first element from the array so that the array doesn't constantly grow
+    if (obstacleArray.length > 5) {
+        obstacleArray.shift(); //remove the first element from the array so that the array doesn't constantly grow
     }
 }
 
