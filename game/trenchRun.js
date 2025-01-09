@@ -51,6 +51,14 @@ let projectileWidth = 20;
 let projectileHeight = 10;
 let projectileSpeed = 10;
 
+//laser
+let laser = {
+    x: spaceShip.x + spaceShip.width, // Start at the right edge of the dino
+    y: spaceShip.y + spaceShip.height / 2 - projectileHeight / 2, // Centered vertically
+    width: projectileWidth,
+    height: projectileHeight
+};
+
 
 window.onload = function() {
     board = document.getElementById("board");
@@ -58,10 +66,6 @@ window.onload = function() {
     board.width = boardWidth;
 
     context = board.getContext("2d"); //used for drawing on the board
-
-    //draw initial dinosaur
-    // context.fillStyle="green";
-    // context.fillRect(dino.x, dino.y, dino.width, dino.height);
 
     spaceShipImg = new Image();
     spaceShipImg.src = "./img/XWing.png";
@@ -90,15 +94,12 @@ function update() {
     }
     context.clearRect(0, 0, board.width, board.height);
 
-
-
-    
     //velocityY += gravity;
     //spaceship
     context.drawImage(spaceShipImg, spaceShip.x, spaceShip.y, spaceShip.width, spaceShip.height);
     
 
-    //cactus
+    //Collisions
     for (let i = 0; i < cactusArray.length; i++) {
         let cactus = cactusArray[i];
         cactus.x += velocityX;
@@ -111,6 +112,19 @@ function update() {
                 context.drawImage(spaceShipImg, spaceShip.x, spaceShip.y, spaceShip.width, spaceShip.height);
             }
         }
+
+        for (let j = 0; j < projectiles.length; j++) {
+            let projectile = projectiles[j];
+            if (detectCollision(projectile, cactus)) {
+                console.log("hit");
+                // Remove the cactus and projectile on collision
+                cactusArray.splice(i, 1);  // Remove cactus
+                projectiles.splice(j, 1);  // Remove projectile
+                i--;  // Adjust index after removing cactus
+                break;  // Exit inner loop after collision
+            }
+        }
+
     }
 
       // Move and render projectiles
@@ -126,7 +140,7 @@ function update() {
         }
 
         // Draw projectile
-        context.fillStyle = "red";
+        context.fillStyle = "green";
         context.fillRect(projectile.x, projectile.y, projectile.width, projectile.height);
     }
 
@@ -139,10 +153,6 @@ function update() {
 
 // Movement and shooting
 function moveSpaceShip(e) {
-    if (gameOver) {
-        return;
-    }
-
     // Move up
     if ((e.code == "KeyW" || e.code == "ArrowUp")) {
         if(spaceShip.y > 1){
@@ -172,18 +182,15 @@ function moveSpaceShip(e) {
 
 // New function to shoot a projectile
 function shootProjectile() {
-    if (gameOver) {
-        return;
-    }
-
-    let projectile = {
-        x: spaceShip.x + spaceShip.width, // Start at the right edge of the dino
+    let newLaser = {
+        x: spaceShip.x + spaceShip.width, // Start at the right edge of the spaceship
         y: spaceShip.y + spaceShip.height / 2 - projectileHeight / 2, // Centered vertically
         width: projectileWidth,
         height: projectileHeight
     };
+    projectiles.push(newLaser); // Add the new projectile to the array
 
-    projectiles.push(projectile); // Add the projectile to the array
+    //projectiles.push(laser); // Add the projectile to the array
 }
 
 function placeCactus() {
