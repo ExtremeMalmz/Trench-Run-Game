@@ -43,7 +43,8 @@ let velocityY = 0;
 let gravity = 0;
 
 let gameOver = false;
-let score = 0;
+//the time spent playing
+let time = 2500;
 
 // Projectiles
 let projectiles = [];
@@ -94,10 +95,14 @@ function update() {
     }
     context.clearRect(0, 0, board.width, board.height);
 
+     // Increase cactus speed as score increases
+     velocityX = -8 - Math.floor((2500 - time) / 100); // Increase speed every 250 time units
+
     //velocityY += gravity;
     //spaceship
     context.drawImage(spaceShipImg, spaceShip.x, spaceShip.y, spaceShip.width, spaceShip.height);
-    
+
+
 
     //Collisions
     for (let i = 0; i < cactusArray.length; i++) {
@@ -144,11 +149,11 @@ function update() {
         context.fillRect(projectile.x, projectile.y, projectile.width, projectile.height);
     }
 
-    //score
+    //time countdown
     context.fillStyle="black";
     context.font="20px courier";
-    score++;
-    context.fillText(score, 5, 20);
+    time--;
+    context.fillText("Distance to reactor: " + time, 5, 20);
 }
 
 // Movement and shooting
@@ -198,37 +203,47 @@ function placeCactus() {
         return;
     }
 
-    //place cactus
+    // Define the possible spawn heights for the cactus (top, middle, bottom)
+    const spawnPositions = [
+        0,                           // Top of the board
+        boardHeight / 2 - cactusHeight / 2, // Middle of the board
+        boardHeight - cactusHeight  // Bottom of the board
+    ];
+
+    // Randomly select one of the positions
+    const randomY = spawnPositions[Math.floor(Math.random() * spawnPositions.length)];
+
+    // Place cactus
     let cactus = {
-        img : null,
-        x : cactusX,
-        y : cactusY,
-        width : null,
+        img: null,
+        x: cactusX,
+        y: randomY,  // Assign the randomly selected position
+        width: null,
         height: cactusHeight
-    }
+    };
 
     let placeCactusChance = Math.random(); //0 - 0.9999...
 
-    if (placeCactusChance > .90) { //10% you get cactus3
+    if (placeCactusChance > 0.90) { // 10% chance you get cactus3
         cactus.img = cactus3Img;
         cactus.width = cactus3Width;
         cactusArray.push(cactus);
-    }
-    else if (placeCactusChance > .70) { //30% you get cactus2
+    } else if (placeCactusChance > 0.70) { // 30% chance you get cactus2
         cactus.img = cactus2Img;
         cactus.width = cactus2Width;
         cactusArray.push(cactus);
-    }
-    else if (placeCactusChance > .50) { //50% you get cactus1
+    } else if (placeCactusChance > 0.50) { // 50% chance you get cactus1
         cactus.img = cactus1Img;
         cactus.width = cactus1Width;
         cactusArray.push(cactus);
     }
 
+    // Prevent the array from growing infinitely
     if (cactusArray.length > 5) {
-        cactusArray.shift(); //remove the first element from the array so that the array doesn't constantly grow
+        cactusArray.shift(); // Remove the first element from the array
     }
 }
+
 
 function detectCollision(a, b) {
     return a.x < b.x + b.width &&   //a's top left corner doesn't reach b's top right corner
