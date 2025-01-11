@@ -43,6 +43,7 @@ let velocityY = 0;
 let gravity = 0;
 
 let gameOver = false;
+let gottenToEndOfGame = false;
 //the time spent playing
 let time = 2500;
 
@@ -59,6 +60,7 @@ let laser = {
     width: projectileWidth,
     height: projectileHeight
 };
+
 
 
 window.onload = function() {
@@ -91,24 +93,42 @@ window.onload = function() {
 function update() {
     requestAnimationFrame(update);
     if (gameOver) {
-        return;
+        return; // Stop placing cactuses when time is 0 or game is over
     }
+    if(time <= 2400){
+        gottenToEndOfGame = true;
+
+        console.log("Reached end!");
+        placeReactorCore();
+
+        velocityX = 0;
+       
+    }
+    
     context.clearRect(0, 0, board.width, board.height);
 
-     // Increase cactus speed as score increases
-     velocityX = -8 - Math.floor((2500 - time) / 100); // Increase speed every 250 time units
+    if(!gottenToEndOfGame){
+        console.log("increase");
+// Increase cactus speed as score increases
+     velocityX = -20 - Math.floor((2500 - time) / 100); // Increase speed every 250 time units
 
+    }
+    else{
+        velocityX = 0;
+    }
+     
     //velocityY += gravity;
     //spaceship
     context.drawImage(spaceShipImg, spaceShip.x, spaceShip.y, spaceShip.width, spaceShip.height);
 
-
-
     //Collisions
     for (let i = 0; i < cactusArray.length; i++) {
         let cactus = cactusArray[i];
+        
         cactus.x += velocityX;
         context.drawImage(cactus.img, cactus.x, cactus.y, cactus.width, cactus.height);
+
+  
 
         if (detectCollision(spaceShip, cactus)) {
             gameOver = true;
@@ -129,7 +149,6 @@ function update() {
                 break;  // Exit inner loop after collision
             }
         }
-
     }
 
       // Move and render projectiles
@@ -149,11 +168,16 @@ function update() {
         context.fillRect(projectile.x, projectile.y, projectile.width, projectile.height);
     }
 
-    //time countdown
-    context.fillStyle="black";
-    context.font="20px courier";
-    time--;
-    context.fillText("Distance to reactor: " + time, 5, 20);
+        //fills the text with the time countdown or reached reactor
+        context.fillStyle="black";
+        context.font="20px courier";
+        time--;
+        if(!gottenToEndOfGame){
+            context.fillText("Distance to reactor: " + time, 5, 20);
+        }
+        else{
+            context.fillText("Reached Reactor!", 5, 20);
+        }
 }
 
 // Movement and shooting
@@ -198,10 +222,16 @@ function shootProjectile() {
     //projectiles.push(laser); // Add the projectile to the array
 }
 
+function placeReactorCore() {   
+    //create the thingy here gonna sleep on it
+}
+
+
 function placeCactus() {
-    if (gameOver) {
-        return;
+    if (gameOver || gottenToEndOfGame) {
+        return; // Stop placing cactuses when time is 0 or game is over
     }
+    
 
     // Define the possible spawn heights for the cactus (top, middle, bottom)
     const spawnPositions = [
@@ -250,4 +280,18 @@ function detectCollision(a, b) {
            a.x + a.width > b.x &&   //a's top right corner passes b's top left corner
            a.y < b.y + b.height &&  //a's top left corner doesn't reach b's bottom left corner
            a.y + a.height > b.y;    //a's bottom left corner passes b's top left corner
+}
+
+function spawnCactus2InMiddle() {
+    // Create the cactus object for cactus 2
+    let cactus = {
+        img: cactus2Img,                // Use the cactus2 image
+        x: cactusX,                     // Starting x position (off-screen to the right)
+        y: boardHeight / 2 - cactusHeight / 2,  // Position it in the middle of the screen
+        width: cactus2Width,            // Use cactus2's width
+        height: cactusHeight,            // Height of the cactus                         
+    };
+
+    // Add the cactus object to the cactus array to make it appear on screen
+    cactusArray.push(cactus);
 }
