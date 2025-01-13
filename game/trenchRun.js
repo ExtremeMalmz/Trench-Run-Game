@@ -61,6 +61,8 @@ let laser = {
     height: projectileHeight
 };
 
+let spawnReactor;
+
 
 
 window.onload = function() {
@@ -140,13 +142,20 @@ function update() {
 
         for (let j = 0; j < projectiles.length; j++) {
             let projectile = projectiles[j];
-            if (detectCollision(projectile, cactus)) {
+            if (detectCollision(projectile, cactus) && gottenToEndOfGame == false ) {
                 console.log("hit");
                 // Remove the cactus and projectile on collision
                 cactusArray.splice(i, 1);  // Remove cactus
                 projectiles.splice(j, 1);  // Remove projectile
                 i--;  // Adjust index after removing cactus
                 break;  // Exit inner loop after collision
+            }
+            //if it comes here its the reactor
+            else if(detectCollision(projectile, cactus) && gottenToEndOfGame == true){
+                cactusArray.splice(i, 1);  // Remove cactus
+                projectiles.splice(j, 1);  // Remove projectile
+                i--;  // Adjust index after removing cactus
+                console.log("yo");
             }
         }
     }
@@ -207,6 +216,11 @@ function moveSpaceShip(e) {
         shootProjectile();
         console.log("fire");
     }
+    // Fire double shot
+    else if (e.code == "KeyX") {
+        shootDoubleProjectile();
+        console.log("Proton torbedoes!");
+    }
 }
 
 // New function to shoot a projectile
@@ -224,6 +238,18 @@ function shootProjectile() {
 
 function placeReactorCore() {   
     //create the thingy here gonna sleep on it
+  
+        // Create the cactus object for the reactor
+        let reactorCactus = {
+            img: cactus2Img,                // Use the cactus2 image (or any image you prefer)
+            x: boardWidth / 2 - cactus2Width / 2, // Position it horizontally in the center of the board
+            y: boardHeight / 2 - cactusHeight / 2, // Position it vertically in the middle of the board
+            width: cactus2Width,            // Use cactus2's width
+            height: cactusHeight            // Use cactus height
+        };
+
+       cactusArray.push(reactorCactus);
+    
 }
 
 
@@ -282,16 +308,25 @@ function detectCollision(a, b) {
            a.y + a.height > b.y;    //a's bottom left corner passes b's top left corner
 }
 
-function spawnCactus2InMiddle() {
-    // Create the cactus object for cactus 2
-    let cactus = {
-        img: cactus2Img,                // Use the cactus2 image
-        x: cactusX,                     // Starting x position (off-screen to the right)
-        y: boardHeight / 2 - cactusHeight / 2,  // Position it in the middle of the screen
-        width: cactus2Width,            // Use cactus2's width
-        height: cactusHeight,            // Height of the cactus                         
+
+function shootDoubleProjectile() {
+    // Create the top projectile
+    let topLaser = {
+        x: spaceShip.x + spaceShip.width, // Start at the right edge of the spaceship
+        y: spaceShip.y,                  // Top edge of the spaceship
+        width: projectileWidth,
+        height: projectileHeight
     };
 
-    // Add the cactus object to the cactus array to make it appear on screen
-    cactusArray.push(cactus);
+    // Create the bottom projectile
+    let bottomLaser = {
+        x: spaceShip.x + spaceShip.width, // Start at the right edge of the spaceship
+        y: spaceShip.y + spaceShip.height - projectileHeight, // Bottom edge of the spaceship
+        width: projectileWidth,
+        height: projectileHeight
+    };
+
+    // Add both projectiles to the array
+    projectiles.push(topLaser);
+    projectiles.push(bottomLaser);
 }
