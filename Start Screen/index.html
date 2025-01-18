@@ -4,21 +4,35 @@
         <meta charset="UTF-8">
         <meta name="viewport", content="width=device-width, initial-scale=1.0">
         <title>Trench Run </title>
+
+        <link href="https://fonts.cdnfonts.com/css/star-wars" rel="stylesheet">
         <link rel="stylesheet" href="startscreen.css">
+        <style>
+            @import url('https://fonts.cdnfonts.com/css/star-wars');
+            </style>
+
         <script src="startscreen.js"></script>
         <audio src="Star-Wars-Disco.mp3" autoplay loop></audio>
     </head>
     <body>
         <h1>Trench Run</h1>
-        <p>	It is a period of civil war. Rebel spaceships, striking from their base on the moon Yavin 5, 
-            have started their first battle against the evil Galactic Empire. 
-            The plan is to destroy  the Empire’s ultimate weapon, the DEATH STAR, 
-            an armored space station with enough power to destroy an entire planet.
-            
-            During the battle, the legendary star pilot NAMEHERE has been chosen to attempt a 
-            dangerous trench run that will lead to the only vulnerablility of the death star
-            and restore freedom to the galaxy….
-        </p>	 
+        <div id="text">
+            <p>it is a period of civil war. Rebel spaceships, striking from their base on the moon Yavin Four, 
+                have started their first battle against the evil Galactic Empire. 
+                The plan is to destroy  the Empire’s ultimate weapon, the DEATH STAR, 
+                an armored space station with enough power to destroy an entire planet.
+            </p>
+                During the battle, the legendary star pilot 
+                <p>
+                    <input id="playerName" type="text" placeholder="Enter Your Name"> 
+                </p> 
+                has been chosen to attempt a 
+                dangerous trench run that will lead to the only vulnerablility of the death star
+                and restore freedom to the galaxy….
+
+                
+            </p>	 
+        </div>
 
         <button onclick="startGame()">Start the Game</button>
     </body>
