@@ -44,8 +44,8 @@ let gravity = 0;
 
 let gameOver = false;
 let gottenToEndOfGame = false;
-//the time spent playing
-let time = 2500;
+//the time spent playing (2500)
+let time = 1000;
 
 // Projectiles
 let projectiles = [];
@@ -60,10 +60,6 @@ let laser = {
     width: projectileWidth,
     height: projectileHeight
 };
-
-let spawnReactor;
-
-
 
 window.onload = function() {
     board = document.getElementById("board");
@@ -97,7 +93,7 @@ function update() {
     if (gameOver) {
         return; // Stop placing cactuses when time is 0 or game is over
     }
-    if(time <= 2400){
+    if(time <= 0){
         gottenToEndOfGame = true;
 
         console.log("Reached end!");
@@ -106,13 +102,14 @@ function update() {
         velocityX = 0;
        
     }
+
     
     context.clearRect(0, 0, board.width, board.height);
 
     if(!gottenToEndOfGame){
         console.log("increase");
 // Increase cactus speed as score increases
-     velocityX = -20 - Math.floor((2500 - time) / 100); // Increase speed every 250 time units
+     velocityX = -20 - Math.floor((2500 - time) / 250); // Increase speed every 250 time units
 
     }
     else{
@@ -220,6 +217,9 @@ function moveSpaceShip(e) {
     else if (e.code == "KeyX") {
         shootDoubleProjectile();
         console.log("Proton torbedoes!");
+
+        window.location.href = "./WinningScreen/index.html";
+
     }
 }
 
