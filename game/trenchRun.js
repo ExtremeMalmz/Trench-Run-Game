@@ -387,3 +387,51 @@ function shootDoubleProjectile() {
     projectiles.push(topLaser);
     projectiles.push(bottomLaser);
 }
+
+//heres for mobile
+// Wait for the DOM to fully load before adding event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    // Select buttons by their ID
+    const button1 = document.getElementById('button1');
+    const button2 = document.getElementById('button2');
+    const button3 = document.getElementById('button3');
+
+    // Check if buttons exist before adding event listeners
+    if (button1) {
+        //moves up
+        button1.addEventListener('click', () => {
+            const simulatedEvent = new KeyboardEvent('keydown', {
+                key: 'w',          // Key 'w' simulates the move up
+                code: 'KeyW',      // Use the code for the 'w' key
+            });
+
+            // Call moveSpaceShip with the simulated event
+            moveSpaceShip(simulatedEvent);
+
+        });
+    }
+
+    //moves down
+    if (button2) {
+        button2.addEventListener('click', () => {
+            const simulatedEvent = new KeyboardEvent('keydown', {
+                key: 's',          // Key 'w' simulates the move up
+                code: 'KeyS',      // Use the code for the 'w' key
+            });
+        
+        moveSpaceShip(simulatedEvent);
+        });
+    }
+
+    if (button3) {
+        //fires
+        button3.addEventListener('click', () => {
+            const simulatedEvent = new KeyboardEvent('keydown', {
+                key: ' ',         // Key ' ' simulates the spacebar
+                code: 'Space',    // Use the code for the spacebar key
+            });
+        
+        moveSpaceShip(simulatedEvent);
+        });
+    }
+});

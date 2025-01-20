@@ -7,9 +7,10 @@ body {
 
 #board {
     border-bottom: 1px solid black;
+    border-top: 1px solid black;
     background-color: grey;
     opacity: 1;  /* Ensure opacity is set for starting */
-    transition: opacity 1s ease; /* Optional: smoother transition */
+    transition: opacity 1s ease; /* Optional: smoother transition */    
 
 }
 
@@ -20,6 +21,10 @@ canvas {
     transform: translate(-50%, -50%); /* Offset by 50% of its own dimensions */
     margin: 0; /* Remove default margin */
     text-align: center; /* Ensure text alignment */
+}
+
+#mobile-buttons{
+    display: none;
 }
 
 /* smaller PC screens support*/
@@ -34,7 +39,7 @@ canvas {
 
     
     #board {
-        width: 100%;
+        width: 150%;
         height: 40%;
         
         /* Rotate the board */
@@ -47,4 +52,40 @@ canvas {
         display: flex;   /* Optional: Use flexbox to manage content */
         flex-direction: column;  /* Stack content vertically */
     }
+    #mobile-buttons {
+        display: block;  /* Show buttons on screens smaller than 600px */
+        position: fixed; /* Fixed positioning at the bottom of the screen */
+        bottom: 20px;    /* Set the distance from the bottom of the screen */
+        left: 50%;       /* Center horizontally */
+        transform: translateX(-50%) rotate(90deg);  /* Rotate the container 90 degrees */
+        transform-origin: right bottom;  /* Set the rotation anchor point */
+        z-index: 1000;   /* Ensure the buttons are on top of other content */
+        display: flex;
+        flex-direction: column;  /* Stack the first two buttons vertically */
+        align-items: center;     /* Center align the buttons horizontally within the container */
+
+        overflow: auto;
+    }
+
+    /* Styling for the buttons */
+    .triangle-button {
+        background-color: #ffde58;
+        color: black;
+        padding: 15px 30px;
+        font-size: 18px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        margin: 10px;  /* Margin between the buttons */
+    }
+    
+    /* Position the third button to the left of the stacked buttons */
+    #button3 {
+        background-color: red;
+        position: absolute;
+         /* Shift the third button to the left */
+        top: 45%;     /* Align vertically with the center of the first two buttons */
+        transform: translateY(-50%);  /* Offset the button by half its height to align perfectly */
+    }
+    
 }
