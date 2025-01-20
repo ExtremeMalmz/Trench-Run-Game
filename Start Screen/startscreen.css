@@ -33,11 +33,6 @@ h1{
     text-align: center;
 }
 
-#playerName::placeholder {
-    color: #ffde58; /* Changes the color of placeholder text */
-    opacity: 0.7; /* Slightly faded appearance */
-}
-
 
 button{
     background-color:black;
@@ -45,4 +40,60 @@ button{
     height:auto;
     width: 50vw; /* 50% of the viewport width */
     height: 10vh; /* 50% of the viewport height */
+}
+
+
+
+
+/* Container that holds the scrolling text */
+#scrollingTextContainer {
+    position: relative;
+    width: 100%; /* Adjust width of container */
+    height: 100%;
+    overflow: hidden; /* Hide overflowed content */
+    text-align: center;
+}
+
+/* Wrapper for the text group to animate */
+#scrollingText {
+    position: relative;
+    animation: scrollText 10s linear forwards; /* Animate scrolling text */
+    
+    text-align: center;
+    display: flex; /* Enable flexbox */
+    justify-content: center; /* Center text horizontally */
+    align-items: center; /* Center text vertically */
+    width: 100%; /* Ensure full width */
+    height: auto; /* Adjust height according to content */
+}
+
+.textGroup {
+    animation: moveUp 10s linear forwards; /* Animate moving up */
+}
+
+/* Last paragraph won't move (static) */
+#lastText {
+    position: absolute;
+    top: 100%; /* Initially placed below the container */
+    width: 100%;
+}
+
+/* Keyframe to scroll the text up */
+@keyframes moveUp {
+    0% {
+        top: 100%; /* Start below the container */
+    }
+    100% {
+        top: -100%; /* Move completely off-screen */
+    }
+}
+
+/* Optional, adjust the animation for smooth scrolling */
+@keyframes scrollText {
+    0% {
+        top: 100%;
+    }
+    100% {
+        top: -100%;
+    }
 }

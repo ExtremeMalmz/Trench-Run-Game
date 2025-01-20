@@ -45,7 +45,7 @@ let gravity = 0;
 let gameOver = false;
 let gottenToEndOfGame = false;
 //the time spent playing (2500)
-let time = 10;
+let time = 1000;
 
 // Projectiles
 let projectiles = [];
