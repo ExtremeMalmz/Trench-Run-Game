@@ -1,0 +1,50 @@
+/* Container that holds the scrolling text */
+#scrollingTextContainer {
+    position: relative;
+    width: 100%; /* Adjust width of container */
+    height: 100%; /* Fixed height for the container */
+    overflow: hidden; /* Hide overflowed content */
+    
+    border: 1px solid black; /* Optional, for visualizing the container */
+
+
+   
+}
+
+/* Wrapper for the text group to animate */
+#scrollingText {
+    position: relative;
+    animation: scrollText 10s linear forwards; /* Animate scrolling text */
+    font-size: 60px;
+}
+
+.textGroup {
+    animation: moveUp 10s linear forwards; /* Animate moving up */
+}
+
+/* Last paragraph won't move (static) */
+#lastText {
+    position: absolute;
+    top: 100%; /* Initially placed below the container */
+    width: 100%;
+}
+
+/* Keyframe to scroll the text up */
+@keyframes moveUp {
+    0% {
+        top: 100%; /* Start below the container */
+    }
+    100% {
+        top: -100%; /* Move completely off-screen */
+    }
+}
+
+/* Optional, adjust the animation for smooth scrolling */
+@keyframes scrollText {
+    0% {
+        top: 100%;
+    }
+    100% {
+        top: -100%;
+    }
+}

@@ -45,7 +45,7 @@ let gravity = 0;
 let gameOver = false;
 let gottenToEndOfGame = false;
 //the time spent playing (2500)
-let time = 1000;
+let time = 10;
 
 // Projectiles
 let projectiles = [];
@@ -60,6 +60,8 @@ let laser = {
     width: projectileWidth,
     height: projectileHeight
 };
+
+let placedReactor = false;
 
 window.onload = function() {
     board = document.getElementById("board");
@@ -97,7 +99,13 @@ function update() {
         gottenToEndOfGame = true;
 
         console.log("Reached end!");
-        placeReactorCore();
+        if(!placedReactor){
+            placeReactorCore();
+        }
+        else{
+
+        }
+        placedReactor = true;
 
         velocityX = 0;
        
@@ -149,13 +157,33 @@ function update() {
             }
             //if it comes here its the reactor
             else if(detectCollision(projectile, cactus) && gottenToEndOfGame == true){
-                cactusArray.splice(i, 1);  // Remove cactus
+                cactus.img = new Image();
+                cactus.img.src = "./img/Explosion.png";
+                //cactusArray.splice(i, 1);  // Remove cactus
                 projectiles.splice(j, 1);  // Remove projectile
                 i--;  // Adjust index after removing cactus
-                console.log("yo");
+                console.log("X");
+
+                board = document.getElementById("board");
+    
+
+    // Set background image in JavaScript
+                board.style.backgroundColor = "red";
+                 // Set the image of the cactus to the explosion image
+
+                
+        // Start the fade-out effect
+        // Call the function to start the fade-out process when the page loads
+        fadeToBlack();
+        console.log("yo");
+
+                
             }
+            
         }
     }
+
+    
 
       // Move and render projectiles
       for (let i = 0; i < projectiles.length; i++) {
@@ -184,6 +212,38 @@ function update() {
         else{
             context.fillText("Reached Reactor!", 5, 20);
         }
+}
+
+function fadeToBlack() {
+    let body = document.body; // The entire body of the page
+
+    let opacity = 1; // Start with full opacity
+    let fadeSpeed = 0.02; // Speed of the fade-out (adjust as needed)
+
+    // Start the fade effect
+    function fadeEffect() {
+        opacity -= fadeSpeed; // Decrease opacity
+        opacity = Math.max(0, opacity); // Prevent opacity from going below 0
+
+        // Gradually change the background color from white to black
+        let red = Math.floor(255 * opacity);  // Start with white (255, 255, 255) and fade to black (0, 0, 0)
+        let green = Math.floor(255 * opacity);
+        let blue = Math.floor(255 * opacity);
+
+        // Apply the new background color
+        body.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+        body.style.opacity = opacity;
+
+        // Continue fading until opacity reaches 0
+        if (opacity > 0) {
+            requestAnimationFrame(fadeEffect); // Continue the fade effect
+        } else {
+            window.location.href = "./WinningScreen/index.html"
+        }
+    }
+
+    // Begin fading out to black
+    fadeEffect();
 }
 
 // Movement and shooting
@@ -217,9 +277,6 @@ function moveSpaceShip(e) {
     else if (e.code == "KeyX") {
         shootDoubleProjectile();
         console.log("Proton torbedoes!");
-
-        window.location.href = "./WinningScreen/index.html";
-
     }
 }
 
