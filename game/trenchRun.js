@@ -63,8 +63,19 @@ let laser = {
 
 //places the reactor
 let placedReactor = false;
+let completedTutorial = false;
 
 window.onload = function() {
+    if(completedTutorial == true){
+        
+    }
+    else{
+
+    }
+    
+}
+
+function startGame(){
     board = document.getElementById("board");
     board.height = boardHeight;
     board.width = boardWidth;
@@ -436,3 +447,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+
+
+function closeTutorial(){
+    console.log("yo");
+
+    const popupContainer = document.getElementById('popup-container');
+    popupContainer.style.display = 'none';
+    
+    startGame();
+}

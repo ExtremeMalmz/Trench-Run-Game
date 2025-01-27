@@ -9,6 +9,15 @@
     </head>
     <body>
         <h1>Trench Run</h1>
+
+        <div id="popup-container" class="hidden">
+            <div id="popup-box">
+              <p>To move your X-Wing use the W,S, or the arrow keys!</p>
+              <p>To shoot press SPACEBAR or X for double fire!</p>
+              <button id="close-popup" onclick="closeTutorial()">Close</button>
+            </div>
+          </div>
+          
         <canvas id="board"></canvas>
         <div id="mobile-buttons">
             <button class="triangle-button" id="button1">Up</button>
