@@ -22,7 +22,7 @@ let spaceShip = {
 //explosion
 let explosionImg;
 
-//cactus
+//cactus in this context its the collisions
 let cactusArray = [];
 
 let cactus1Width = 34;
@@ -61,6 +61,7 @@ let laser = {
     height: projectileHeight
 };
 
+//places the reactor
 let placedReactor = false;
 
 window.onload = function() {

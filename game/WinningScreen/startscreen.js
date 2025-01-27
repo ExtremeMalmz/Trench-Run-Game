@@ -47,7 +47,7 @@ function fadeToBlack() {
             requestAnimationFrame(fadeEffect); // Continue the fade effect
         } else {
             //where you want it to go
-            //window.location.href = "./WinningScreen/index.html"
+            window.location.href = "../Credits/index.html"
         }
     }
 
