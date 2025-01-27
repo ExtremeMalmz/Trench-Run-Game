@@ -65,16 +65,6 @@ let laser = {
 let placedReactor = false;
 let completedTutorial = false;
 
-window.onload = function() {
-    if(completedTutorial == true){
-        
-    }
-    else{
-
-    }
-    
-}
-
 function startGame(){
     board = document.getElementById("board");
     board.height = boardHeight;
@@ -102,11 +92,21 @@ function startGame(){
     document.addEventListener("keydown", moveSpaceShip);
 }
 
+let timer = 0;
+
 function update() {
     requestAnimationFrame(update);
     if (gameOver) {
+        timer++;
+
+        if(timer >= 100){
+            window.location.href = "./GameOver/index.html"
+        }
+        
+       
         return; // Stop placing cactuses when time is 0 or game is over
     }
+    
     if(time <= 0){
         gottenToEndOfGame = true;
 
@@ -447,8 +447,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-
 
 
 function closeTutorial(){
