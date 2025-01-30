@@ -73,19 +73,22 @@ function startGame(){
     context = board.getContext("2d"); //used for drawing on the board
 
     spaceShipImg = new Image();
-    spaceShipImg.src = "./img/XWing.png";
+    spaceShipImg.src = "./img/XWing1.png";
     spaceShipImg.onload = function() {
         context.drawImage(spaceShipImg, spaceShip.x, spaceShip.y, spaceShip.width, spaceShip.height);
     }
 
     cactus1Img = new Image();
-    cactus1Img.src = "./img/asteroid.png";
+    cactus1Img.src = "./img/asteroid1.png";
 
     cactus2Img = new Image();
-    cactus2Img.src = "./img/cactus2.png";
+    cactus2Img.src = "./img/tiefighter1.png";
 
     cactus3Img = new Image();
-    cactus3Img.src = "./img/cactus3.png";
+    cactus3Img.src = "./img/tiefighter2.png";
+
+    reactorImg = new Image();
+    reactorImg.src = "./img/Reactor.png";
 
     requestAnimationFrame(update);
     setInterval(placeCactus, 1000); //1000 milliseconds = 1 second
@@ -310,7 +313,7 @@ function placeReactorCore() {
   
         // Create the cactus object for the reactor
         let reactorCactus = {
-            img: cactus2Img,                // Use the cactus2 image (or any image you prefer)
+            img: reactorImg,                // Use the cactus2 image (or any image you prefer)
             x: boardWidth / 2 - cactus2Width / 2, // Position it horizontally in the center of the board
             y: boardHeight / 2 - cactusHeight / 2, // Position it vertically in the middle of the board
             width: cactus2Width,            // Use cactus2's width
