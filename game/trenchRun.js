@@ -116,25 +116,21 @@ function update() {
     if(time <= 0){
         gottenToEndOfGame = true;
 
-        console.log("Reached end!");
+        //console.log("Reached end!");
         if(!placedReactor){
             obstacleArray = [];
             placeReactorCore();
         }
         else{
-
         }
         placedReactor = true;
 
         velocityX = 0;
-       
     }
-
-    
     context.clearRect(0, 0, board.width, board.height);
 
     if(!gottenToEndOfGame){
-        console.log("increase");
+        //console.log("increase");
     // Increase obstacle speed as score increases
      velocityX = -20 - Math.floor((3000 - time) / 250); // Increase speed every 250 time units
 
@@ -165,7 +161,7 @@ function update() {
         for (let j = 0; j < projectiles.length; j++) {
             let projectile = projectiles[j];
             if (detectCollision(projectile, obstacleInArray) && gottenToEndOfGame == false ) {
-                console.log("hit");
+                //console.log("hit");
                 // Remove the obstacle and projectile on collision
                 obstacleArray.splice(i, 1);  
                 projectiles.splice(j, 1);  
@@ -179,7 +175,7 @@ function update() {
                 
                 projectiles.splice(j, 1);  // Remove projectile
                 i--;  // Adjust index after removing obstacle
-                console.log("X");
+               // console.log("X");
 
                 board = document.getElementById("board");
     
@@ -191,14 +187,10 @@ function update() {
         // Start the fade-out effect
         // Call the function to start the fade-out process when the page loads
         fadeToBlack();
-        console.log("yo");
-
-                
             }
             
         }
     }
-
 
       // Move and render projectiles
       for (let i = 0; i < projectiles.length; i++) {
@@ -286,12 +278,12 @@ function moveSpaceShip(e) {
     else if (e.code == "Space") {
         // Shoot when "S" is pressed
         shootProjectile();
-        console.log("fire");
+        //console.log("fire");
     }
     // Fire double shot
     else if (e.code == "KeyX") {
         shootDoubleProjectile();
-        console.log("Proton torbedoes!");
+        //console.log("Proton torbedoes!");
     }
 }
 
@@ -319,15 +311,12 @@ function placeReactorCore() {
         };
 
         obstacleArray.push(reactor);
-    
 }
-
 
 function placeCactus() {
     if (gameOver || gottenToEndOfGame) {
         return; // Stop placing obstacles when time is 0 or game is over
-    }
-    
+    }    
 
     // Define the possible spawn heights for the obstacle (top, middle, bottom)
     const spawnPositions = [
@@ -373,14 +362,12 @@ function placeCactus() {
     }
 }
 
-
 function detectCollision(a, b) {
     return a.x < b.x + b.width &&   //a's top left corner doesn't reach b's top right corner
            a.x + a.width > b.x &&   //a's top right corner passes b's top left corner
            a.y < b.y + b.height &&  //a's top left corner doesn't reach b's bottom left corner
            a.y + a.height > b.y;    //a's bottom left corner passes b's top left corner
 }
-
 
 function shootDoubleProjectile() {
     // Create the top projectile
@@ -423,7 +410,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Call moveSpaceShip with the simulated event
             moveSpaceShip(simulatedEvent);
-
         });
     }
 
@@ -454,8 +440,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function closeTutorial(){
-    console.log("yo");
-
     const popupContainer = document.getElementById('popup-container');
     popupContainer.style.display = 'none';
     
