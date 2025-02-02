@@ -44,8 +44,8 @@ let gravity = 0;
 
 let gameOver = false;
 let gottenToEndOfGame = false;
-//the time spent playing (2500)
-let time = 1000;
+//the time spent playing (1500 original value)
+let time = 1500;
 
 // Projectiles
 let projectiles = [];
@@ -91,7 +91,11 @@ function startGame(){
     reactorImg.src = "./img/Reactor.png";
 
     requestAnimationFrame(update);
-    setInterval(placeCactus, 1000); //1000 milliseconds = 1 second
+    if(time >= 100){
+        //spawn the obstacles only when time is greater than 100, for the reactor
+        setInterval(placeCactus, 500); //1000 milliseconds = 1 second
+    }
+    
     document.addEventListener("keydown", moveSpaceShip);
 }
 
@@ -132,7 +136,7 @@ function update() {
     if(!gottenToEndOfGame){
         console.log("increase");
 // Increase cactus speed as score increases
-     velocityX = -20 - Math.floor((2500 - time) / 250); // Increase speed every 250 time units
+     velocityX = -20 - Math.floor((3000 - time) / 250); // Increase speed every 250 time units
 
     }
     else{
