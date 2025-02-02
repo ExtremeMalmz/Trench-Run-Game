@@ -22,23 +22,23 @@ let spaceShip = {
 //explosion
 let explosionImg;
 
-//cactus in this context its the collisions
-let cactusArray = [];
+//array of obstacles like asteroids tie fighters
+let obstacleArray = [];
 
-let cactus1Width = 34;
-let cactus2Width = 69;
-let cactus3Width = 102;
+let obstacle1Width = 34;
+let obstacle2Width = 69;
+let obstacle3Width = 102;
 
-let cactusHeight = 70;
-let cactusX = 1700;
-let cactusY = boardHeight - cactusHeight;
+let obstacleHeight = 70;
+let obstacleX = 1700;
+let obstacleY = boardHeight - obstacleHeight;
 
 let obstacle1Img;
 let obstacle2Img;
 let obstacle3Img;
 
 //physics
-let velocityX = -8; //cactus moving left speed
+let velocityX = -8; //obstacle moving left speed
 let velocityY = 0;
 let gravity = 0;
 
@@ -110,8 +110,7 @@ function update() {
             window.location.href = "./GameOver/index.html"
         }
         
-       
-        return; // Stop placing cactuses when time is 0 or game is over
+        return; 
     }
     
     if(time <= 0){
@@ -119,6 +118,7 @@ function update() {
 
         console.log("Reached end!");
         if(!placedReactor){
+            obstacleArray = [];
             placeReactorCore();
         }
         else{
@@ -135,28 +135,26 @@ function update() {
 
     if(!gottenToEndOfGame){
         console.log("increase");
-// Increase cactus speed as score increases
+    // Increase obstacle speed as score increases
      velocityX = -20 - Math.floor((3000 - time) / 250); // Increase speed every 250 time units
 
     }
     else{
         velocityX = 0;
     }
-     
-    //velocityY += gravity;
-    //spaceship
+
     context.drawImage(spaceShipImg, spaceShip.x, spaceShip.y, spaceShip.width, spaceShip.height);
 
     //Collisions
-    for (let i = 0; i < cactusArray.length; i++) {
-        let cactus = cactusArray[i];
+    for (let i = 0; i < obstacleArray.length; i++) {
+        let obstacleInArray = obstacleArray[i];
         
-        cactus.x += velocityX;
-        context.drawImage(cactus.img, cactus.x, cactus.y, cactus.width, cactus.height);
+        obstacleInArray.x += velocityX;
+        context.drawImage(obstacleInArray.img, obstacleInArray.x, obstacleInArray.y, obstacleInArray.width, obstacleInArray.height);
 
   
 
-        if (detectCollision(spaceShip, cactus)) {
+        if (detectCollision(spaceShip, obstacleInArray)) {
             gameOver = true;
             spaceShipImg.src = "./img/Explosion.png";
             spaceShipImg.onload = function() {
@@ -166,29 +164,28 @@ function update() {
 
         for (let j = 0; j < projectiles.length; j++) {
             let projectile = projectiles[j];
-            if (detectCollision(projectile, cactus) && gottenToEndOfGame == false ) {
+            if (detectCollision(projectile, obstacleInArray) && gottenToEndOfGame == false ) {
                 console.log("hit");
-                // Remove the cactus and projectile on collision
-                cactusArray.splice(i, 1);  // Remove cactus
-                projectiles.splice(j, 1);  // Remove projectile
-                i--;  // Adjust index after removing cactus
-                break;  // Exit inner loop after collision
+                // Remove the obstacle and projectile on collision
+                obstacleArray.splice(i, 1);  
+                projectiles.splice(j, 1);  
+                i--;  
+                break;  
             }
             //if it comes here its the reactor
-            else if(detectCollision(projectile, cactus) && gottenToEndOfGame == true){
-                cactus.img = new Image();
-                cactus.img.src = "./img/Explosion.png";
-                //cactusArray.splice(i, 1);  // Remove cactus
+            else if(detectCollision(projectile, obstacleInArray) && gottenToEndOfGame == true){
+                obstacleInArray.img = new Image();
+                obstacleInArray.img.src = "./img/Explosion.png";
+                
                 projectiles.splice(j, 1);  // Remove projectile
-                i--;  // Adjust index after removing cactus
+                i--;  // Adjust index after removing obstacle
                 console.log("X");
 
                 board = document.getElementById("board");
     
 
-    // Set background image in JavaScript
+                // Set background image in JavaScript
                 board.style.backgroundColor = "red";
-                 // Set the image of the cactus to the explosion image
 
                 
         // Start the fade-out effect
@@ -202,7 +199,6 @@ function update() {
         }
     }
 
-    
 
       // Move and render projectiles
       for (let i = 0; i < projectiles.length; i++) {
@@ -308,71 +304,72 @@ function shootProjectile() {
         height: projectileHeight
     };
     projectiles.push(newLaser); // Add the new projectile to the array
-
-    //projectiles.push(laser); // Add the projectile to the array
 }
 
 function placeReactorCore() {   
     //create the thingy here gonna sleep on it
   
-        // Create the cactus object for the reactor
-        let reactorCactus = {
-            img: reactorImg,                // Use the cactus2 image (or any image you prefer)
-            x: boardWidth / 2 - cactus2Width / 2, // Position it horizontally in the center of the board
-            y: boardHeight / 2 - cactusHeight / 2, // Position it vertically in the middle of the board
-            width: cactus2Width,            // Use cactus2's width
-            height: cactusHeight            // Use cactus height
+        // Create the reactor object for the reactor
+        let reactor = {
+            img: reactorImg,                
+            x: boardWidth / 2 - obstacle2Width / 2,
+            y: boardHeight / 2 - obstacleHeight / 2, 
+            width: obstacle2Width,           
+            height: obstacleHeight            
         };
 
-       cactusArray.push(reactorCactus);
+        obstacleArray.push(reactor);
     
 }
 
 
 function placeCactus() {
     if (gameOver || gottenToEndOfGame) {
-        return; // Stop placing cactuses when time is 0 or game is over
+        return; // Stop placing obstacles when time is 0 or game is over
     }
     
 
-    // Define the possible spawn heights for the cactus (top, middle, bottom)
+    // Define the possible spawn heights for the obstacle (top, middle, bottom)
     const spawnPositions = [
         0,                           // Top of the board
-        boardHeight / 2 - cactusHeight / 2, // Middle of the board
-        boardHeight - cactusHeight  // Bottom of the board
+        boardHeight / 2 - obstacleHeight / 2, // Middle of the board
+        boardHeight - obstacleHeight  // Bottom of the board
     ];
 
     // Randomly select one of the positions
     const randomY = spawnPositions[Math.floor(Math.random() * spawnPositions.length)];
 
-    // Place cactus
-    let cactus = {
+    // Place obstacle
+    let obstacle = {
         img: null,
-        x: cactusX,
+        x: obstacleX,
         y: randomY,  // Assign the randomly selected position
         width: null,
-        height: cactusHeight
+        height: obstacleHeight
     };
 
     let placeCactusChance = Math.random(); //0 - 0.9999...
 
-    if (placeCactusChance > 0.90) { // 10% chance you get cactus3
-        cactus.img = obstacle3Img;
-        cactus.width = cactus3Width;
-        cactusArray.push(cactus);
-    } else if (placeCactusChance > 0.70) { // 30% chance you get cactus2
-        cactus.img = obstacle2Img;
-        cactus.width = cactus2Width;
-        cactusArray.push(cactus);
-    } else if (placeCactusChance > 0.50) { // 50% chance you get cactus1
-        cactus.img = obstacle1Img;
-        cactus.width = cactus1Width;
-        cactusArray.push(cactus);
+    //here we determine the spawn rate
+    if (placeCactusChance > 0.90) { 
+        obstacle.img = obstacle3Img;
+        obstacle.width = obstacle3Width;
+        obstacleArray.push(obstacle);
+    // 30% chance you get obstacle2
+    } else if (placeCactusChance > 0.70) { 
+        obstacle.img = obstacle2Img;
+        obstacle.width = obstacle2Width;
+        obstacleArray.push(obstacle);
+    // 50% chance you get obstaclee3
+    } else if (placeCactusChance > 0.50) { 
+        obstacle.img = obstacle1Img;
+        obstacle.width = obstacle1Width;
+        obstacleArray.push(obstacle);
     }
 
     // Prevent the array from growing infinitely
-    if (cactusArray.length > 5) {
-        cactusArray.shift(); // Remove the first element from the array
+    if (obstacleArray.length > 5) {
+        obstacleArray.shift(); // Remove the first element from the array
     }
 }
 
