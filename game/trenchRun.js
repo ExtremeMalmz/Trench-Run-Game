@@ -33,9 +33,9 @@ let cactusHeight = 70;
 let cactusX = 1700;
 let cactusY = boardHeight - cactusHeight;
 
-let cactus1Img;
-let cactus2Img;
-let cactus3Img;
+let obstacle1Img;
+let obstacle2Img;
+let obstacle3Img;
 
 //physics
 let velocityX = -8; //cactus moving left speed
@@ -78,14 +78,14 @@ function startGame(){
         context.drawImage(spaceShipImg, spaceShip.x, spaceShip.y, spaceShip.width, spaceShip.height);
     }
 
-    cactus1Img = new Image();
-    cactus1Img.src = "./img/asteroid1.png";
+    obstacle1Img = new Image();
+    obstacle1Img.src = "./img/asteroid1.png";
 
-    cactus2Img = new Image();
-    cactus2Img.src = "./img/tiefighter1.png";
+    obstacle2Img = new Image();
+    obstacle2Img.src = "./img/tiefighter1.png";
 
-    cactus3Img = new Image();
-    cactus3Img.src = "./img/tiefighter2.png";
+    obstacle3Img = new Image();
+    obstacle3Img.src = "./img/tiefighter2.png";
 
     reactorImg = new Image();
     reactorImg.src = "./img/Reactor.png";
@@ -357,15 +357,15 @@ function placeCactus() {
     let placeCactusChance = Math.random(); //0 - 0.9999...
 
     if (placeCactusChance > 0.90) { // 10% chance you get cactus3
-        cactus.img = cactus3Img;
+        cactus.img = obstacle3Img;
         cactus.width = cactus3Width;
         cactusArray.push(cactus);
     } else if (placeCactusChance > 0.70) { // 30% chance you get cactus2
-        cactus.img = cactus2Img;
+        cactus.img = obstacle2Img;
         cactus.width = cactus2Width;
         cactusArray.push(cactus);
     } else if (placeCactusChance > 0.50) { // 50% chance you get cactus1
-        cactus.img = cactus1Img;
+        cactus.img = obstacle1Img;
         cactus.width = cactus1Width;
         cactusArray.push(cactus);
     }

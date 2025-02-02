@@ -9,18 +9,17 @@ body {
     border-bottom: 1px solid black;
     border-top: 1px solid black;
     background-color: grey;
-    opacity: 1;  /* Ensure opacity is set for starting */
-    transition: opacity 1s ease; /* Optional: smoother transition */    
-
+    opacity: 1;  
+    transition: opacity 1s ease; /* smoother transition */    
 }
 
 canvas {
     position: absolute; /* Enables positioning relative to the viewport */
     top: 40%; /* Center vertically BUT set to slightly above halfpage to make it easier to view */
     left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Offset by 50% of its own dimensions */
+    transform: translate(-50%, -50%); 
     margin: 0; /* Remove default margin */
-    text-align: center; /* Ensure text alignment */
+    text-align: center; /* Ensures text alignment */
 }
 
 #mobile-buttons{
@@ -35,6 +34,7 @@ canvas {
     }
 }
 
+/* this is mobile support support*/
 @media (max-width: 600px) {
 
     
@@ -42,13 +42,11 @@ canvas {
         width: 150%;
         height: 40%;
         
-        /* Rotate the board */
+        /* Rotates the board */
         transform: rotate(90deg);
         transform-origin: top center;  /* Adjust the rotation anchor */
 
-        
 
-        /* Change to a vertical layout */
         display: flex;   /* Optional: Use flexbox to manage content */
         flex-direction: column;  /* Stack content vertically */
     }
@@ -61,10 +59,12 @@ canvas {
         transform-origin: right bottom;  /* Set the rotation anchor point */
         z-index: 1000;   /* Ensure the buttons are on top of other content */
         display: flex;
-        flex-direction: column;  /* Stack the first two buttons vertically */
-        align-items: center;     /* Center align the buttons horizontally within the container */
-
+        flex-direction: column;  
+        align-items: center;     
         overflow: auto;
+
+        touch-action: manipulation; /* Prevents double-tap zoom */
+
     }
 
     /* Styling for the buttons */
@@ -83,13 +83,11 @@ canvas {
     #button3 {
         background-color: red;
         position: absolute;
-         /* Shift the third button to the left */
         top: 45%;     /* Align vertically with the center of the first two buttons */
         transform: translateY(-50%);  /* Offset the button by half its height to align perfectly */
     }
     
 }
-
 
 /* Fullscreen semi-transparent background */
 #popup-container {
